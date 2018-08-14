@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        int[] br = new int[] { 9600, 14400, 19200, 38400, 57600, 115200, 128000 };
         Boolean mountStatus = false;
         
         public Form1()
@@ -29,6 +30,7 @@ namespace WindowsFormsApp1
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.Text = Properties.Settings.Default.decom;
+            brd.Text = br[Properties.Settings.Default.buadRate].ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,11 +41,13 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Open Port: " + comboBox1.Text);
                 listBox1.Items.Add("FTDI : OK");
                 try {
+                    
                     serialPort1.PortName = comboBox1.Text;
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.None;
                     serialPort1.StopBits = StopBits.One;
-                    serialPort1.BaudRate = Properties.Settings.Default.buadRate;
+                    serialPort1.BaudRate = br[Properties.Settings.Default.buadRate];
+                   // Debug.Print(br[Properties.Settings.Default.buadRate].ToString());
                 }catch(System.InvalidOperationException)
                 {
                     MessageBox.Show("Port has Open");
@@ -157,8 +161,10 @@ namespace WindowsFormsApp1
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //brd.Text = br[Properties.Settings.Default.buadRate].ToString();
             settings f2 = new settings();
             f2.ShowDialog();
+            brd.Text = br[Properties.Settings.Default.buadRate].ToString();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

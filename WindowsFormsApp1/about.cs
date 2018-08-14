@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -20,10 +21,10 @@ namespace WindowsFormsApp1
 
         private void about_Load(object sender, EventArgs e)
         {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fvi.FileVersion;
-            versiontt.Text = version;
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                versiontt.Text = string.Format("{0}", ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4));
+            }
         }
     }
 }
